@@ -5,6 +5,7 @@ Created on Wed Jun  4 16:09:54 2025
 @author: user
 """
 
+
 import streamlit as st
 import numpy as np
 import pandas as pd
@@ -14,15 +15,28 @@ matplotlib.rcParams['font.sans-serif'] = ['SimHei']  # 设置中文字体（黑�
 matplotlib.rcParams['axes.unicode_minus'] = False    # 正确显示负号
 
 
-st.title("路面介电常数估算器")
+st.title("基于表面反射法的路面介电常数计算器")
 st.markdown("""
-本小程序用于通过**地质雷达（GPR）信号**估算**路面材料的介电常数**，以辅助分析路面的**密实度**或**含水率**。
+本小程序用于通过**探地雷达（GPR）信号**估算**路面材料的介电常数**，以辅助分析路面的**密实度**或**含水率**。介电常数作为材料的重要电磁特性表征参数，可用于进一步分析路面密实度或含水率。
 
 ---  
 🔧 **功能说明：**  
-- 通过上传或选择内置的 **铜板反射信号** 与 **路面反射信号**，比较两者反射强度，计算介电常数。
+- 通过上传或选择内置的 **铜板反射信号** 与 **路面反射信号**，提取两者反射振幅，基于路表反射法计算介电常数。
 - 支持**多列信号**并自动批量处理。
 - 支持导出计算结果为 CSV 文件。
+
+📤**方法说明：**
+
+本小程序通过 GPR 信号中铜板与路面反射的最大幅值之比，利用如下公式计算路面介电常数：
+
+$$ \\varepsilon = \\left( \\frac{1 + A_0/A_p}{1 - A_0/A_p} \\right)^2 $$
+
+
+其中：
+- $A_p$ 为铜板反射信号中延时后的最大值；
+- $A_0$ 为待测路面信号中延时后的最大值；
+- $\\varepsilon$ 越大，表示水分或密度越高。
+
 
 📌 **使用步骤：**  
 1. 选择数据输入方式（上传CSV文件或使用内置示例信号）  
@@ -210,21 +224,6 @@ if not np.isscalar(epsilonac):
     csv = df.to_csv(index=False).encode('utf-8')
     st.download_button("📥 下载介电常数结果表格", csv, "epsilon_results.csv", "text/csv")
 
-
-st.markdown("---")
-st.markdown("### 方法说明（用于作业提交）")
-st.markdown("""
-本小程序通过 GPR 信号中铜板与路面反射的最大幅值之比，利用公式：
-
-$$ \\varepsilon = \\left( \\frac{1 + A_0/A_p}{1 - A_0/A_p} \\right)^2 $$
-
-估算路面介电常数。
-
-其中：
-- $A_p$ 为铜板反射信号中延时后的最大值；
-- $A_0$ 为待测路面信号中延时后的最大值；
-- $\\varepsilon$ 越大，表示水分或密度越高。
-""")
 
 
 
