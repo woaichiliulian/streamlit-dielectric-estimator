@@ -142,45 +142,47 @@ if i_lim >= len(copper_new):
 # ✅ Ap 取 i_lim 之后的最大绝对值
 Ap = np.max(np.abs(copper_new[i_lim:]))
 
-# （可选）显示 i_lim 和 Ap 值
+# 显示 i_lim 和 Ap
 st.markdown(f"已根据 h 和 fs 计算 i_lim = {i_lim}，并从此位置起取最大值 Ap = {Ap:.3f}")
 
-# ✅ 显示处理结果（可选调试输出）
+# 标题
 st.subheader("处理后的铜板信号（copper_new）")
 
+# 创建图表
 fig_ap = go.Figure()
 
-# 添加 copper_new 曲线
+# ✅ 添加 copper_new 曲线：浅蓝色 + 实线
 fig_ap.add_trace(go.Scatter(
     y=copper_new,
     mode='lines',
     name='去均值后铜板信号',
-    line=dict(color='blue')
+    line=dict(color='lightskyblue', width=2)
 ))
 
-# 添加 Ap 横线
+# ✅ 添加 Ap 水平虚线：红色虚线
 fig_ap.add_trace(go.Scatter(
     x=[0, len(copper_new)],
     y=[Ap, Ap],
     mode='lines',
     name=f'Ap = {Ap:.2f}',
-    line=dict(color='red', dash='dash')
+    line=dict(color='red', dash='dash', width=2)
 ))
 
-# 设置图像布局
+# ✅ 布局设置
 fig_ap.update_layout(
     title="铜板信号处理结果",
-    xaxis_title="样本点",
+    xaxis_title="采样点",
     yaxis_title="幅值",
     legend_title="图例",
-    height=400
+    height=400,
+    margin=dict(l=30, r=30, t=40, b=30)
 )
 
+# ✅ 渲染图表
 st.plotly_chart(fig_ap, use_container_width=True)
 
+# 信息提示
 st.info(f"铜板信号处理完成，最大幅值 Ap = {Ap:.2f}")
-
-
 
 
 if signal.ndim == 1:
