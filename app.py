@@ -146,7 +146,7 @@ Ap = np.max(np.abs(copper_new[i_lim:]))
 st.markdown(f"已根据 h 和 fs 计算 i_lim = {i_lim}，并从此位置起取最大值 Ap = {Ap:.3f}")
 
 # 标题
-st.subheader("处理后的铜板信号（copper_new）")
+st.subheader("处理后的铜板信号")
 
 # 创建图表
 fig_ap = go.Figure()
