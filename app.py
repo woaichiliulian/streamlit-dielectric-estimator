@@ -228,43 +228,45 @@ else:
 
 st.subheader("信号对比图（铜板 vs 路面）")
 
-fig_plotly = go.Figure()
+fig2 = go.Figure()
 
-# 铜板信号（均值后）
-fig_plotly.add_trace(go.Scatter(
+# 添加铜板信号（浅蓝色虚线）
+fig2.add_trace(go.Scatter(
     y=copper_new,
-    mode='lines',
-    name='铜板信号',
-    line=dict(dash='dash', color='blue')
+    mode="lines",
+    name="铜板信号",
+    line=dict(dash='dash', width=2, color='lightskyblue')  # ✅ 浅蓝色虚线
 ))
 
-# 路面信号
+# 添加路面信号
 if signal.ndim == 1:
-    fig_plotly.add_trace(go.Scatter(
+    fig2.add_trace(go.Scatter(
         y=signal,
-        mode='lines',
-        name='待测信号',
-        line=dict(color='orange')
+        mode="lines",
+        name="待测信号",
+        line=dict(dash='solid', width=2, color='orange'),  # 实线 + 橙色
+        opacity=0.8
     ))
 else:
+    colors = ['orange', 'green', 'red', 'purple', 'brown', 'gray']  # 可扩展
     for i in range(signal.shape[1]):
-        fig_plotly.add_trace(go.Scatter(
+        fig2.add_trace(go.Scatter(
             y=signal[:, i],
-            mode='lines',
-            name=f"待测信号 第{i+1}列"
+            mode="lines",
+            name=f"待测信号 第{i+1}列",
+            line=dict(dash='solid', width=2, color=colors[i % len(colors)]),
+            opacity=0.7
         ))
 
-# 图形布局
-fig_plotly.update_layout(
-    title="铜板与路面信号对比",
-    xaxis_title="样本点",
+fig2.update_layout(
+    xaxis_title="采样点",
     yaxis_title="幅值",
     legend_title="信号类型",
-    height=400
+    height=400,
+    margin=dict(l=30, r=30, t=30, b=30)
 )
 
-st.plotly_chart(fig_plotly, use_container_width=True)
-
+st.plotly_chart(fig2, use_container_width=True)
 
 
 
