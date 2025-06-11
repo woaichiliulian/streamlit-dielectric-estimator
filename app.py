@@ -19,7 +19,7 @@ matplotlib.rcParams['axes.unicode_minus'] = False    # 正确显示负号
 
 st.title("基于表面反射法的路面介电常数计算器")
 st.markdown("""
-本小程序用于通过**探地雷达（GPR）信号**估算**路面材料的介电常数**，以辅助分析路面的**密实度**或**含水率**。介电常数作为材料的重要电磁特性表征参数，可用于进一步分析路面密实度或含水率。
+本小程序用于通过**探地雷达（GPR）信号**估算**路面材料的介电常数**，以辅助判断路面的**密实度**或**含水率**。介电常数作为反映材料电磁特性的关键参数，能够为路面结构性能的进一步评估提供有效依据。
 
 ---  
 🔧 **功能说明：**  
@@ -165,7 +165,7 @@ fig_ap.add_trace(go.Scatter(
     y=[Ap, Ap],
     mode='lines',
     name=f'Ap = {Ap:.2f}',
-    line=dict(color='red', dash='dash', width=2)
+    line=dict(color='#d62728', dash='dash', width=2)
 ))
 
 # ✅ 布局设置
