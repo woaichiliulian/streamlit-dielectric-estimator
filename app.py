@@ -11,6 +11,8 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 import matplotlib
+import plotly.graph_objects as go
+
 matplotlib.rcParams['font.sans-serif'] = ['SimHei']  # 设置中文字体（黑体）
 matplotlib.rcParams['axes.unicode_minus'] = False    # 正确显示负号
 
@@ -145,14 +147,38 @@ st.markdown(f"已根据 h 和 fs 计算 i_lim = {i_lim}，并从此位置起取�
 
 # ✅ 显示处理结果（可选调试输出）
 st.subheader("处理后的铜板信号（copper_new）")
-fig, ax = plt.subplots()
-ax.plot(copper_new, label="去均值后铜板信号")
-ax.axhline(y=Ap, color='r', linestyle='--', label=f"Ap = {Ap:.2f}")
-ax.legend()
-st.pyplot(fig)
+
+fig_ap = go.Figure()
+
+# 添加 copper_new 曲线
+fig_ap.add_trace(go.Scatter(
+    y=copper_new,
+    mode='lines',
+    name='去均值后铜板信号',
+    line=dict(color='blue')
+))
+
+# 添加 Ap 横线
+fig_ap.add_trace(go.Scatter(
+    x=[0, len(copper_new)],
+    y=[Ap, Ap],
+    mode='lines',
+    name=f'Ap = {Ap:.2f}',
+    line=dict(color='red', dash='dash')
+))
+
+# 设置图像布局
+fig_ap.update_layout(
+    title="铜板信号处理结果",
+    xaxis_title="样本点",
+    yaxis_title="幅值",
+    legend_title="图例",
+    height=400
+)
+
+st.plotly_chart(fig_ap, use_container_width=True)
 
 st.info(f"铜板信号处理完成，最大幅值 Ap = {Ap:.2f}")
-
 
 
 
@@ -201,15 +227,44 @@ else:
 # ------------------- 4.结果可视化 -------------------
 
 st.subheader("信号对比图（铜板 vs 路面）")
-fig2, ax2 = plt.subplots()
-ax2.plot(copper_new, label="铜板信号", linestyle="--")
+
+fig_plotly = go.Figure()
+
+# 铜板信号（均值后）
+fig_plotly.add_trace(go.Scatter(
+    y=copper_new,
+    mode='lines',
+    name='铜板信号',
+    line=dict(dash='dash', color='blue')
+))
+
+# 路面信号
 if signal.ndim == 1:
-    ax2.plot(signal, label="待测信号", alpha=0.8)
+    fig_plotly.add_trace(go.Scatter(
+        y=signal,
+        mode='lines',
+        name='待测信号',
+        line=dict(color='orange')
+    ))
 else:
     for i in range(signal.shape[1]):
-        ax2.plot(signal[:, i], label=f"待测信号 第{i+1}列", alpha=0.6)
-ax2.legend()
-st.pyplot(fig2)
+        fig_plotly.add_trace(go.Scatter(
+            y=signal[:, i],
+            mode='lines',
+            name=f"待测信号 第{i+1}列"
+        ))
+
+# 图形布局
+fig_plotly.update_layout(
+    title="铜板与路面信号对比",
+    xaxis_title="样本点",
+    yaxis_title="幅值",
+    legend_title="信号类型",
+    height=400
+)
+
+st.plotly_chart(fig_plotly, use_container_width=True)
+
 
 
 
