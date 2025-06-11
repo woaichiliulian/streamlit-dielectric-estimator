@@ -156,7 +156,7 @@ fig_ap.add_trace(go.Scatter(
     y=copper_new,
     mode='lines',
     name='去均值后铜板信号',
-    line=dict(color='#80ADC8', width=2)
+    line=dict(color='#1f77b4', width=2)
 ))
 
 # ✅ 添加 Ap 水平虚线：红色虚线
@@ -237,7 +237,7 @@ fig2.add_trace(go.Scatter(
     y=copper_new,
     mode="lines",
     name="铜板信号",
-    line=dict(dash='dash', width=2, color='#80ADC8')  # ✅ 浅蓝色虚线
+    line=dict(dash='dash', width=2, color='#1f77b4')  # ✅ 浅蓝色虚线
 ))
 
 # 添加路面信号
