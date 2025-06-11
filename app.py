@@ -11,8 +11,9 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 import matplotlib
-matplotlib.rcParams['font.sans-serif'] = ['SimHei']  # 设置中文字体（黑体）
-matplotlib.rcParams['axes.unicode_minus'] = False    # 正确显示负号
+plt.rcParams['font.family'] = 'sans-serif'
+plt.rcParams['font.sans-serif'] = ['SimHei']  # 使用黑体
+plt.rcParams['axes.unicode_minus'] = False    # 正常显示负号
 
 
 st.title("基于表面反射法的路面介电常数计算器")
